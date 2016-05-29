@@ -17,10 +17,7 @@ export $(docker exec jenkins env | grep ADMIN)
 until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@localhost:8080/jenkins/|head -n 1|cut -d$' ' -f2) == 200 ]]; do echo "Jenkins unavailable, sleeping for 5s"; sleep 5; done
 
 # Wait for Gerrit to be up and running
-#until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@gerrit:8080/gerrit/|head -n 1|cut -d$' ' -f2) == 200 ]]; do echo "Gerrit unavailable, sleeping for 5s"; sleep 5; done
-
-# Wait for Gerrit's Jenkins SSH key to be uploaded
-until [[ $(docker logs gerrit | grep jenkins@adop-core | wc -l) != 0 ]]; do echo "Sleep for 5 seconds.. Gerrit's Jenkins SSH Key unavailable"; sleep 5; done
+until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@gerrit:8080/gerrit/|head -n 1|cut -d$' ' -f2) == 200 ]]; do echo "Jenkins unavailable, sleeping for 5s"; sleep 5; done
 
 # Create Gitlab_Load_Platform job
 docker exec jenkins curl -X POST "${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@localhost:8080/jenkins/job/Load_Platform/buildWithParameters?GIT_URL=https://github.com/bzon/adop-b-framework-gitlab-load-platform.git&GENERATE_EXAMPLE_WORKSPACE=false" --data token=gAsuE35s

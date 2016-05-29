@@ -1,3 +1,8 @@
+# Contains Gitlab - will soon be modified to have a custom landing page
+proxy:
+  image: bzon/adop-nginx:0.3.0
+
+# Centos Jenkins because of AFPO assets requires some related configuration
 jenkins:
   image: bzon/centos-adop-jenkins:0.3.0
   environment:
@@ -13,6 +18,7 @@ jenkins:
     PUBLIC_IP: "${PUBLIC_IP}"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
  
+# Ansible Jenkins slave
 jenkins-slave:
   image: bzon/adop-ansible-jenkins
   environment:
