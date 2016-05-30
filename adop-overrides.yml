@@ -4,7 +4,7 @@ proxy:
 
 # Centos Jenkins because some projects requires some installation on the Jenkins master itself
 jenkins:
-  image: bzon/centos-adop-jenkins:0.4.0
+  image: bzon/centos-adop-jenkins:0.3.0
   environment:
     AWS_REGION: "${AWS_REGION}"
     VPC_ID: "${VPC_ID}"
