@@ -2,7 +2,7 @@
 proxy:
   image: bzon/adop-nginx:0.3.0
 
-# Centos Jenkins because of AFPO assets requires some related configuration
+# Centos Jenkins because some projects requires some installation on the Jenkins master itself
 jenkins:
   image: bzon/centos-adop-jenkins:0.3.0
   environment:
@@ -18,9 +18,9 @@ jenkins:
     PUBLIC_IP: "${PUBLIC_IP}"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
  
-# Ansible Jenkins slave
+# An extended adop jenkins slave with Ansible yum package installed
 jenkins-slave:
-  image: bzon/adop-ansible-jenkins
+  image: bzon/adop-ansible-jenkins:0.2.0
   environment:
     SLAVE_EXECUTORS: "10"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
