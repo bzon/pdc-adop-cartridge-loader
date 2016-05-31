@@ -20,7 +20,7 @@ jenkins:
  
 # An extended adop jenkins slave with Ansible yum package installed
 jenkins-slave:
-  image: bzon/adop-ansible-jenkins:0.2.0
+  image: bzon/adop-ansible-jenkins:0.3.0
   environment:
     SLAVE_EXECUTORS: "10"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
