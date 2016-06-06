@@ -19,6 +19,9 @@ until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_
 # Wait for Gerrit  SSH key to be available
 until [[ $(docker exec jenkins curl -L ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@gerrit:8080/gerrit/a/accounts/jenkins/sshkeys | grep jenkins@adop-core | wc -l) -gt 0 ]]; do echo "Gerrit's jenkins ssh key unavailable, sleeping for 5s"; sleep 5; done
 
+# Wait for Gitlab to be up and running       
+until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@gitlab/gitlab/users/sign_in|head -n 1|cut -d$' ' -f2) == 200 ]]; do echo "Gitlab unavailable, sleeping for 5s"; sleep 5; done
+
 # Create Gitlab_Load_Platform job
 docker exec jenkins curl -X POST "${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@localhost:8080/jenkins/job/Load_Platform/buildWithParameters?GIT_URL=https://github.com/bzon/adop-b-framework-gitlab-load-platform.git&GENERATE_EXAMPLE_WORKSPACE=false" --data token=gAsuE35s
 
