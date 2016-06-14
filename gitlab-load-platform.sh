@@ -22,6 +22,9 @@ until [[ $(docker exec jenkins curl -L ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PAS
 # Wait for Gitlab to be up and running       
 until [[ $(docker exec jenkins curl -I -s ${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@gitlab/gitlab/users/sign_in|head -n 1|cut -d$' ' -f2) == 200 ]]; do echo "Gitlab unavailable, sleeping for 5s"; sleep 5; done
 
+# Wait for Gitlab Token to be available
+until [[ $(docker exec -it jenkins curl --silent -X POST "http://gitlab/gitlab/api/v3/session?login=root&password=${PASSWORD_GITLAB}" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj['\''private_token'\''];' | wc -l) -gt 0 ]]; do echo "Gitlab Token unavailable, sleeping for 5s"; sleep 5; done
+
 # Create Gitlab_Load_Platform job
 docker exec jenkins curl -X POST "${INITIAL_ADMIN_USER}:${INITIAL_ADMIN_PASSWORD}@localhost:8080/jenkins/job/Load_Platform/buildWithParameters?GIT_URL=https://github.com/bzon/adop-b-framework-gitlab-load-platform.git&GENERATE_EXAMPLE_WORKSPACE=false" --data token=gAsuE35s
 
