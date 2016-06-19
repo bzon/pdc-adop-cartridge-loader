@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # If Infra is Swarm Cluster
-if [[ $(docker network ls | grep $CUSTOM_NETWORK_NAME | grep overlay | wc -l) ]]
+if [[ $(docker network ls | grep $CUSTOM_NETWORK_NAME | grep overlay | wc -l) -gt 0 ]]
 then
   export DOCKER_HOST=tcp://10.10.2.100:2375
 fi
