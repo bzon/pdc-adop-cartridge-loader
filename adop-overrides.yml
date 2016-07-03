@@ -4,7 +4,8 @@ proxy:
 
 # Centos Jenkins because some projects requires some installation on the Jenkins master itself
 jenkins:
-  image: bzon/centos-adop-jenkins:0.3.0
+  #image: bzon/centos-adop-jenkins:0.3.0
+  image: bzon/adop-jenkins:latest
   environment:
     AWS_REGION: "${AWS_REGION}"
     VPC_ID: "${VPC_ID}"
@@ -18,7 +19,13 @@ jenkins:
     PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
     PUBLIC_IP: "${PUBLIC_IP}"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
- 
+    SMTP_USER: "${INITIAL_ADMIN_USER}@ldap.adop.com"
+    SMTP_PASSWORD: "${INITIAL_ADMIN_PASSWORD_PLAIN}"
+    SMTP_HOST: "mail-server"
+    SMTP_PORT: "25"
+    SMTP_SYSAD_EMAIL: "jenkins-admin@adop-core"
+    ADOP_SMTP_ENABLED: "true"
+    
 # An extended adop jenkins slave with Ansible yum package installed
 jenkins-slave:
   image: bzon/adop-ansible-jenkins:0.3.0
