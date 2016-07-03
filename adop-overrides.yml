@@ -2,11 +2,13 @@
 proxy:
   image: bzon/adop-nginx:0.3.0
 
-# Centos Jenkins because some projects requires some installation on the Jenkins master itself
+# Override jenkins environment and image
+# The image has upgraded and new plugins
 jenkins:
   #image: bzon/centos-adop-jenkins:0.3.0
-  image: bzon/adop-jenkins:latest
+  image: bzon/adop-jenkins:bzon-0.2
   environment:
+    ROOT_URL: "${PROTO}://${PUBLIC_IP}/jenkins/"
     AWS_REGION: "${AWS_REGION}"
     VPC_ID: "${VPC_ID}"
     KEY_PAIR: "${DEFAULT_KEY_PAIR}"
@@ -19,18 +21,19 @@ jenkins:
     PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
     PUBLIC_IP: "${PUBLIC_IP}"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
-    SMTP_USER: "${INITIAL_ADMIN_USER}@ldap.adop.com"
+    SMTP_USER: "${INITIAL_ADMIN_USER}@${LDAP_DOMAIN}"
     SMTP_PASSWORD: "${INITIAL_ADMIN_PASSWORD_PLAIN}"
     SMTP_HOST: "mail-server"
     SMTP_PORT: "25"
-    SMTP_SYSAD_EMAIL: "jenkins-admin@adop-core"
+    SMTP_SYSAD_EMAIL: "jenkins@${PUBLIC_HOSTNAME}"
     ADOP_SMTP_ENABLED: "true"
-    
+
 # An extended adop jenkins slave with Ansible yum package installed
 jenkins-slave:
-  image: bzon/adop-ansible-jenkins:0.3.0
+  image: bzon/adop-jenkins-slave:ansible-2.1
   environment:
     SLAVE_EXECUTORS: "10"
+    SLAVE_NAME: "Swarm_Ansible_Slave"
     LDAP_DOMAIN: "${LDAP_DOMAIN}"
     SWARM_PASSWORD: "${PASSWORD_JENKINS}"
     PASSWORD_GITLAB: "${PASSWORD_GITLAB}"
