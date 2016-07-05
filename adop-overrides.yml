@@ -25,7 +25,7 @@ jenkins:
     SMTP_PASSWORD: "${INITIAL_ADMIN_PASSWORD_PLAIN}"
     SMTP_HOST: "mail-server"
     SMTP_PORT: "25"
-    SMTP_SYSAD_EMAIL: "jenkins@${PUBLIC_HOSTNAME}"
+    SMTP_SYSAD_EMAIL: "jenkins@adop-core"
     ADOP_SMTP_ENABLED: "true"
 
 # An extended adop jenkins slave with Ansible yum package installed
