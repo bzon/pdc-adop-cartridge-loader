@@ -1,11 +1,5 @@
 #!/bin/bash -e
 
-# If Infra is Swarm Cluster
-if [[ $(docker network ls | grep $CUSTOM_NETWORK_NAME | grep overlay | wc -l) -gt 0 ]]
-then
-  export DOCKER_HOST=tcp://10.10.2.100:2375
-fi
-
 export INITIAL_WORKSPACE_NAME=${1}
 export INITIAL_PROJECT_NAME={$1}Project
 
